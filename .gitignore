@@ -1,2 +1,36 @@
-﻿node_modules/
-.env
+﻿# npm
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+node_modules
+dist
+dist-ssr
+*.local
+package-lock.json
+
+# Miscellaneous
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.code-workspace
+Notes*
+Examples/
+desktop.ini
+OL-Fork*
+Agent*
+config.json
+
+# Official
+Official/
+
+
