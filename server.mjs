@@ -460,8 +460,15 @@ wss.on('connection', (socket, request) => {
       case 'room:list': {
         const query = typeof message.query === 'string' ? message.query.trim() : '';
         const rooms = Array.from(publicRooms.values())
-          .filter((room) => room.meta.visibility !== 'private')
-          .filter((room) => !query || room.meta.roomId?.includes(query) || room.meta.roomId === query)
+          .filter((room) => {
+            if (!query) {
+              return room.meta.visibility !== 'private';
+            }
+            const matches = room.meta.roomId?.includes(query) || room.meta.roomId === query;
+            if (!matches) return false;
+            if (room.meta.visibility !== 'private') return true;
+            return room.meta.roomId === query;
+          })
           .map((room) => ({
             roomId: room.meta.roomId,
             name: room.meta.name,

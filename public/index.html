@@ -9,35 +9,45 @@
   <body>
     <main class="app">
       <header class="app__header">
-        <h1>Miliastra Collaboration Server</h1>
-        <p>Configure public rooms, API keys, and capacity.</p>
+        <div class="app__header-row">
+          <div>
+            <h1 data-i18n="header.title">Miliastra Collaboration Server</h1>
+            <p data-i18n="header.subtitle">Configure public rooms, API keys, and capacity.</p>
+          </div>
+          <div class="app__lang">
+            <label for="lang-select" data-i18n="header.language">Language</label>
+            <select id="lang-select">
+              <option value="en">English</option>
+              <option value="zh">简体中文</option>
+            </select>
+          </div>
+        </div>
       </header>
 
       <section class="panel">
-        <h2>Server Configuration</h2>
-        <form id="config-form">
+        <h2 data-i18n="config.title">Server Configuration</h2>
+        <form id="config-form" autocomplete="off">
           <label class="field field--checkbox">
             <input id="require-api-key" type="checkbox" />
-            Require API key to create rooms
+            <span data-i18n="config.requireApiKey">Require API key to create rooms</span>
           </label>
           <label class="field">
-            <span>Maximum rooms (0 = unlimited)</span>
+            <span data-i18n="config.maxRooms">Maximum rooms (0 = unlimited)</span>
             <input id="max-rooms" type="number" min="0" />
           </label>
           <div class="row">
-            <button type="submit">Save settings</button>
-            <span class="meta">Active rooms: <strong id="room-count">0</strong></span>
+            <span class="meta"><span data-i18n="config.activeRooms">Active rooms</span>: <strong id="room-count">0</strong></span>
           </div>
           <p id="config-status" class="status"></p>
         </form>
       </section>
 
       <section class="panel">
-        <h2>API Keys</h2>
+        <h2 data-i18n="keys.title">API Keys</h2>
         <div class="row">
-          <input id="new-key" type="text" placeholder="Paste or leave empty to generate" />
-          <button id="add-key" type="button">Add key</button>
-          <button id="generate-key" type="button">Generate key</button>
+          <input id="new-key" type="text" data-i18n-placeholder="keys.placeholder" placeholder="Paste or leave empty to generate" />
+          <button id="add-key" type="button" data-i18n="keys.add">Add key</button>
+          <button id="generate-key" type="button" data-i18n="keys.generate">Generate key</button>
         </div>
         <ul id="key-list" class="key-list"></ul>
       </section>
