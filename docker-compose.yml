@@ -1,0 +1,8 @@
+﻿version: "3.8"
+services:
+  collab-server:
+    build: .
+    ports:
+      - "51982:51982"
+    volumes:
+      - ./config.json:/app/config.json

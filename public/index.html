@@ -1,0 +1,48 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Miliastra Collab Server</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <h1>Miliastra Collaboration Server</h1>
+        <p>Configure public rooms, API keys, and capacity.</p>
+      </header>
+
+      <section class="panel">
+        <h2>Server Configuration</h2>
+        <form id="config-form">
+          <label class="field field--checkbox">
+            <input id="require-api-key" type="checkbox" />
+            Require API key to create rooms
+          </label>
+          <label class="field">
+            <span>Maximum rooms (0 = unlimited)</span>
+            <input id="max-rooms" type="number" min="0" />
+          </label>
+          <div class="row">
+            <button type="submit">Save settings</button>
+            <span class="meta">Active rooms: <strong id="room-count">0</strong></span>
+          </div>
+          <p id="config-status" class="status"></p>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2>API Keys</h2>
+        <div class="row">
+          <input id="new-key" type="text" placeholder="Paste or leave empty to generate" />
+          <button id="add-key" type="button">Add key</button>
+          <button id="generate-key" type="button">Generate key</button>
+        </div>
+        <ul id="key-list" class="key-list"></ul>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
