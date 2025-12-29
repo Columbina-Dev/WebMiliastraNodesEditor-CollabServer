@@ -457,6 +457,28 @@ wss.on('connection', (socket, request) => {
         safeSend(socket, { type: 'room:created', roomId });
         return;
       }
+      case 'room:info': {
+        const roomId = String(message.roomId ?? '');
+        if (!roomId) return;
+        const room = publicRooms.get(roomId);
+        if (!room) {
+          safeSend(socket, { type: 'room:info', roomId, room: null });
+          return;
+        }
+        safeSend(socket, {
+          type: 'room:info',
+          roomId,
+          room: {
+            roomId: String(roomId),
+            name: room.meta.name,
+            requiresPassword: room.meta.requiresPassword,
+            permission: room.meta.permission,
+            visibility: room.meta.visibility,
+            appVersion: room.meta.appVersion,
+          },
+        });
+        return;
+      }
       case 'room:list': {
         const query = typeof message.query === 'string' ? message.query.trim() : '';
         const rooms = Array.from(publicRooms.entries())
@@ -541,12 +563,22 @@ wss.on('connection', (socket, request) => {
         const resolved = findRoom(roomId, networkKey);
         const client = clients.get(socket);
         if (!resolved || !client) return;
+        const payload = message.payload;
         safeSend(resolved.room.hostSocket, {
           type: 'client:message',
           roomId,
           clientId: client.clientId,
-          payload: message.payload,
+          payload,
         });
+        if (payload && payload.type === 'cursor:update') {
+          resolved.room.members.forEach((memberId) => {
+            if (memberId === client.clientId) return;
+            const memberSocket = clientsById.get(memberId);
+            if (memberSocket) {
+              safeSend(memberSocket, { type: 'room:message', roomId, payload });
+            }
+          });
+        }
         return;
       }
       case 'room:message': {
