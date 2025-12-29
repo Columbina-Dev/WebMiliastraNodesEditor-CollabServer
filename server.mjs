@@ -459,18 +459,19 @@ wss.on('connection', (socket, request) => {
       }
       case 'room:list': {
         const query = typeof message.query === 'string' ? message.query.trim() : '';
-        const rooms = Array.from(publicRooms.values())
-          .filter((room) => {
+        const rooms = Array.from(publicRooms.entries())
+          .filter(([roomId, room]) => {
+            const id = String(roomId ?? '');
             if (!query) {
               return room.meta.visibility !== 'private';
             }
-            const matches = room.meta.roomId?.includes(query) || room.meta.roomId === query;
+            const matches = id.includes(query);
             if (!matches) return false;
             if (room.meta.visibility !== 'private') return true;
-            return room.meta.roomId === query;
+            return id === query;
           })
-          .map((room) => ({
-            roomId: room.meta.roomId,
+          .map(([roomId, room]) => ({
+            roomId: String(roomId ?? room.meta.roomId ?? ''),
             name: room.meta.name,
             requiresPassword: room.meta.requiresPassword,
             permission: room.meta.permission,
