@@ -44,4 +44,9 @@ docker run -p 51982:51982 -v /path/to/config.json:/app/config.json miliastra-col
 ## Notes
 
 - Expose the server via `wss://` when using HTTPS. Reverse proxies or tunnels (Cloudflared, Nginx, Caddy) work well.
+- Only tested compatibility with Cloudflared Tunnel, other similar services should work in theory; Take note that Cloudflared Tunnel can only set the WS port to 443.
+- Public testing (not guaranteed to be always available):
+    - Server address: `signal.columbina.dev`
+    - Port: `443`
+    - Test API key: `f73697b8e11e5d4b09e9d45893b8f52b`
 - Similar to the [main project](https://github.com/Columbina-Dev/WebMiliastraNodesEditor), this project is licensed under the GPLv3 license.

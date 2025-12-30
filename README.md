@@ -44,4 +44,9 @@ docker run -p 51982:51982 -v /path/to/config.json:/app/config.json miliastra-col
 ## 注意事项
 
 - 使用HTTPS时，需通过`wss://`开放服务器，并使用反向代理或隧道（Cloudflared、Nginx、Caddy）
+- 仅测试Cloudflared Tunnel的兼容性，理论其他类似服务均可用；需注意Cloudflared Tunnel只能将WS端口设为443。
+- 公测（不保证随时开启）：
+    - 服务器地址：`signal.columbina.dev`
+    - 端口：`443`
+    - 测试用API密钥：`f73697b8e11e5d4b09e9d45893b8f52b`
 - 与 [主项目](https://github.com/Columbina-Dev/WebMiliastraNodesEditor) 相同，此服务器项目同样采用GPLv3许可证。
