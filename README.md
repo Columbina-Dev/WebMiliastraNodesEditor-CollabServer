@@ -37,7 +37,8 @@ docker run -p 51982:51982 -v /path/to/config.json:/app/config.json miliastra-col
 
 ## 环境变量
 
-- `PORT` 或 `COLLAB_PORT`: 覆盖监听端口
+- `COLLAB_PORT`: 覆盖WS监听端口
+- `COLLAB_ADMIN_PORT`: 覆盖管理面板端口
 - `COLLAB_CONFIG`: 配置文件路径
 
 ## 注意事项

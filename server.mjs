@@ -9,12 +9,16 @@ import { WebSocketServer } from 'ws';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DEFAULT_PORT = 51982;
+const DEFAULT_WS_PORT = 51982;
+const DEFAULT_ADMIN_PORT = 51983;
 const ROOM_ID_LENGTH = 16;
 const ROOM_ID_ATTEMPTS = 8;
 const CONFIG_PATH = process.env.COLLAB_CONFIG || path.join(__dirname, 'config.json');
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const port = Number.parseInt(process.env.COLLAB_PORT ?? process.env.PORT ?? '', 10) || DEFAULT_PORT;
+const wsPort =
+  Number.parseInt(process.env.COLLAB_PORT ?? process.env.PORT ?? '', 10) || DEFAULT_WS_PORT;
+const adminPort =
+  Number.parseInt(process.env.COLLAB_ADMIN_PORT ?? '', 10) || DEFAULT_ADMIN_PORT;
 
 const defaultConfig = {
   requireApiKey: false,
@@ -111,7 +115,7 @@ const serveStatic = async (req, res) => {
   }
 };
 
-const server = http.createServer(async (req, res) => {
+const adminServer = http.createServer(async (req, res) => {
   const requestUrl = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
   if (requestUrl.pathname.startsWith('/api/')) {
     if (req.method === 'OPTIONS') {
@@ -189,7 +193,8 @@ const server = http.createServer(async (req, res) => {
   res.end('Method not allowed');
 });
 
-const wss = new WebSocketServer({ server });
+const wsServer = http.createServer();
+const wss = new WebSocketServer({ server: wsServer });
 
 const clients = new Map();
 const clientsById = new Map();
@@ -661,6 +666,10 @@ wss.on('connection', (socket, request) => {
   });
 });
 
-server.listen(port, () => {
-  console.log(`[collab] server listening on :${port}`);
+wsServer.listen(wsPort, () => {
+  console.log(`[collab] websocket listening on :${wsPort}`);
+});
+
+adminServer.listen(adminPort, () => {
+  console.log(`[collab] admin panel listening on :${adminPort}`);
 });

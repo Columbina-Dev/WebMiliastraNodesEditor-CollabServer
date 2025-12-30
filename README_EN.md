@@ -37,7 +37,8 @@ docker run -p 51982:51982 -v /path/to/config.json:/app/config.json miliastra-col
 
 ## Environment Variables
 
-- `PORT` or `COLLAB_PORT`: Override the listening port
+- `COLLAB_PORT`: Override the WebSocket listening port
+- `COLLAB_ADMIN_PORT`: Override the admin panel port
 - `COLLAB_CONFIG`: Path to the config file
 
 ## Notes
