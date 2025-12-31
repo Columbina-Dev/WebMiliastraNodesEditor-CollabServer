@@ -205,6 +205,9 @@ const heartbeat = setInterval(() => {
     }
     socket.isAlive = false;
     socket.ping();
+    if (socket.readyState === socket.OPEN) {
+      socket.send(JSON.stringify({ type: 'ws:ping', ts: Date.now() }));
+    }
   });
 }, HEARTBEAT_INTERVAL_MS);
 
