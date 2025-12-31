@@ -13,6 +13,7 @@ const DEFAULT_WS_PORT = 51982;
 const DEFAULT_ADMIN_PORT = 51983;
 const ROOM_ID_LENGTH = 16;
 const ROOM_ID_ATTEMPTS = 8;
+const HEARTBEAT_INTERVAL_MS = 25_000;
 const CONFIG_PATH = process.env.COLLAB_CONFIG || path.join(__dirname, 'config.json');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const wsPort =
@@ -196,6 +197,17 @@ const adminServer = http.createServer(async (req, res) => {
 const wsServer = http.createServer();
 const wss = new WebSocketServer({ server: wsServer });
 
+const heartbeat = setInterval(() => {
+  wss.clients.forEach((socket) => {
+    if (!socket.isAlive) {
+      socket.terminate();
+      return;
+    }
+    socket.isAlive = false;
+    socket.ping();
+  });
+}, HEARTBEAT_INTERVAL_MS);
+
 const clients = new Map();
 const clientsById = new Map();
 const networkSockets = new Map();
@@ -350,6 +362,11 @@ const generateRoomId = () => {
 };
 
 wss.on('connection', (socket, request) => {
+  socket.isAlive = true;
+  socket.on('pong', () => {
+    socket.isAlive = true;
+  });
+
   const remoteAddress = normalizeAddress(request.socket.remoteAddress ?? '');
   const networkKey = networkKeyFromAddress(remoteAddress);
   const sockets = networkSockets.get(networkKey) ?? new Set();
@@ -672,4 +689,8 @@ wsServer.listen(wsPort, () => {
 
 adminServer.listen(adminPort, () => {
   console.log(`[collab] admin panel listening on :${adminPort}`);
+});
+
+process.on('SIGTERM', () => {
+  clearInterval(heartbeat);
 });
