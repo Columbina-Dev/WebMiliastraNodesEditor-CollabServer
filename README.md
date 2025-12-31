@@ -16,7 +16,7 @@ npm install
 npm start
 ```
 
-- 默认管理员网页界面: `http://localhost:51982`
+- 默认管理员网页界面: `http://localhost:51983`
 - WebSocket端点: `ws://<host>:51982`
 
 ## 配置
@@ -32,7 +32,7 @@ npm start
 
 ```bash
 docker build -t miliastra-collab-server .
-docker run -p 51982:51982 -v /path/to/config.json:/app/config.json miliastra-collab-server
+docker run -p 51982:51982 -p 51983:51983 -v /path/to/config.json:/app/config.json miliastra-collab-server
 ```
 
 ## 环境变量

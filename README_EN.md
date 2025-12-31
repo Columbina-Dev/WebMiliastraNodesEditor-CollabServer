@@ -16,7 +16,7 @@ npm install
 npm start
 ```
 
-- Default admin UI: `http://localhost:51982`
+- Default admin UI: `http://localhost:51983`
 - WebSocket endpoint: `ws://<host>:51982`
 
 ## Configuration
@@ -32,7 +32,7 @@ Settings are persisted to `config.json`.
 
 ```bash
 docker build -t miliastra-collab-server .
-docker run -p 51982:51982 -v /path/to/config.json:/app/config.json miliastra-collab-server
+docker run -p 51982:51982 -p 51983:51983 -v /path/to/config.json:/app/config.json miliastra-collab-server
 ```
 
 ## Environment Variables

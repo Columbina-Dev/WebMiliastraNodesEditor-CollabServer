@@ -4,5 +4,6 @@ services:
     build: .
     ports:
       - "51982:51982"
+      - "51983:51983"
     volumes:
       - ./config.json:/app/config.json
