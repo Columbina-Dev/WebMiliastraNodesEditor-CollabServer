@@ -49,4 +49,4 @@ docker run -p 51982:51982 -p 51983:51983 -v /path/to/config.json:/app/config.jso
     - Server address: `signal.columbina.dev`
     - Port: `443`
     - Test API key: `f73697b8e11e5d4b09e9d45893b8f52b`
-- Similar to the [main project](https://github.com/Columbina-Dev/WebMiliastraNodesEditor), this project is licensed under the GPLv3 license.
+- Same as the [main project](https://github.com/Columbina-Dev/WebMiliastraNodesEditor), this project is licensed under the GPLv3 license.
